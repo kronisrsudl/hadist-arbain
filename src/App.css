@@ -1,0 +1,758 @@
+/* src/App.css */
+
+/* ==========================================================================
+   #VARIABLES
+   ========================================================================== */
+
+:root {
+  /* Colors */
+  --color-primary: #468FAF; /* Serene Blue */
+  --color-primary-hover: #3D5A80; /* Darker Serene Blue */
+  --color-secondary: #FF6B6B; /* Soft Coral */
+  --color-success: #22c55e; /* green-500 */
+  --color-danger: #ef4444; /* red-500 */
+  --color-danger-hover: #dc2626; /* red-600 */
+
+  --color-text-primary: #333333; /* Charcoal Gray */
+  --color-text-secondary: #475569; /* slate-600 */
+  --color-text-muted: #94a3b8; /* slate-400 */
+  --color-text-inverse: #ffffff;
+
+  --color-bg-primary: #ffffff; /* White */
+  --color-bg-secondary: #f4f4f4; /* Light Gray */
+  --color-bg-tertiary: #e2e8f0; /* slate-200 */
+
+  --color-border: #cbd5e1; /* slate-300 */
+
+  /* Typography */
+  --font-family-sans: 'Lato', sans-serif;
+  --font-family-serif: 'Merriweather', serif;
+
+  --font-size-arabic-1: 1.5rem;
+  --font-size-arabic-2: 2.25rem;
+  --font-size-arabic-3: 3rem;
+  --font-size-arabic-4: 3.75rem;
+  --font-size-arabic-5: 4.5rem;
+
+  --font-size-translation-1: 0.875rem;
+  --font-size-translation-2: 1rem;
+  --font-size-translation-3: 1.125rem;
+  --font-size-translation-4: 1.25rem;
+  --font-size-translation-5: 1.5rem;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* Borders */
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 16px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  /* Z-index */
+  --z-navbar: 10;
+  --z-modal-backdrop: 40;
+  --z-modal: 50;
+}
+
+[data-theme='dark'] {
+  --color-primary: #5a9bbf; /* Lighter Serene Blue for dark mode */
+  --color-primary-hover: #7ab8d9;
+  --color-secondary: #ff8a8a; /* Lighter Soft Coral */
+
+  --color-text-primary: #e2e8f0; /* slate-200 */
+  --color-text-secondary: #94a3b8; /* slate-400 */
+  --color-text-muted: #64748b; /* slate-500 */
+  --color-text-inverse: #0f172a; /* slate-900 */
+
+  --color-bg-primary: #1e293b; /* slate-800 */
+  --color-bg-secondary: #0f172a; /* slate-900 */
+  --color-bg-tertiary: #334155; /* slate-700 */
+
+  --color-border: #475569; /* slate-600 */
+
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.25);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.25);
+}
+
+/* ==========================================================================
+   #BASE
+   ========================================================================== */
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-6);
+}
+
+.main-content-inner {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.app-footer {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  padding: var(--space-4) 0;
+}
+
+.no-results {
+  text-align: center;
+  padding: var(--space-8) 0;
+  font-size: 1.25rem;
+  color: var(--color-text-secondary);
+}
+
+/* ==========================================================================
+   #NAVBAR
+   ========================================================================== */
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-navbar);
+  background-color: rgba(241, 245, 249, 0.8);
+  backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-3) var(--space-5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+  gap: var(--space-4);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-theme='dark'] .navbar {
+    background-color: rgba(30, 41, 59, 0.8);
+}
+
+.navbar__brand {
+  flex-shrink: 0;
+}
+
+.navbar__title {
+  color: var(--color-text-primary);
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: var(--font-family-serif);
+}
+
+.navbar__subtitle {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.navbar__controls--desktop {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.navbar__input {
+  width: 192px;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  transition: width 0.3s ease;
+}
+
+.navbar__input:focus {
+  width: 256px;
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+.navbar__select {
+  padding: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-bg-primary);
+}
+
+[data-theme='dark'] .navbar__select {
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+}
+
+.navbar__button {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  background-color: transparent;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.navbar__button:hover {
+  background-color: var(--color-bg-tertiary);
+}
+
+/* Mobile specific styles for Navbar */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    height: auto;
+    padding: var(--space-3) var(--space-4);
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .navbar__brand {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .navbar__title {
+    font-size: 1.25rem;
+  }
+
+  .navbar__subtitle {
+    font-size: 0.65rem;
+  }
+
+  .navbar__controls--desktop {
+    display: none; /* Hide desktop controls on mobile */
+  }
+
+  .navbar__mobile-search-container {
+    width: 100%;
+    margin-top: var(--space-3);
+  }
+
+  .navbar__input--mobile {
+    width: 100%;
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    outline: none;
+  }
+
+  .navbar__controls--mobile {
+    display: flex;
+    width: 100%;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .navbar__select--mobile {
+    flex-grow: 1;
+    padding: var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    background-color: var(--color-bg-primary);
+  }
+
+  .navbar__controls--mobile .font-size-control {
+    flex-shrink: 0;
+  }
+}
+
+/* ==========================================================================
+   #BOTTOM NAVBAR
+   ========================================================================== */
+.bottom-navbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-navbar); /* Same as top navbar */
+  background-color: rgba(241, 245, 249, 0.9); /* Slightly more opaque */
+  backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-lg); /* Stronger shadow for floating effect */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: var(--space-2) var(--space-4);
+  height: 60px;
+  border-top-left-radius: var(--border-radius-lg);
+  border-top-right-radius: var(--border-radius-lg);
+}
+
+[data-theme='dark'] .bottom-navbar {
+    background-color: rgba(30, 41, 59, 0.9);
+}
+
+.bottom-navbar__button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: var(--space-2);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.bottom-navbar__button:hover {
+  color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+.bottom-navbar__button.is-active {
+  color: var(--color-primary);
+  font-weight: bold;
+}
+
+.bottom-navbar__button .material-icons {
+  font-size: 24px;
+  margin-bottom: var(--space-1);
+}
+
+.bottom-navbar__label {
+  font-size: 0.75rem;
+}
+
+/* Adjust main content padding for bottom navbar */
+@media (max-width: 768px) {
+  .main-content {
+    padding-bottom: calc(var(--space-6) + 60px + var(--space-4)); /* Add height of bottom navbar + footer padding */
+  }
+}
+
+/* Hide bottom navbar on larger screens */
+@media (min-width: 769px) {
+  .bottom-navbar {
+    display: none;
+  }
+}
+
+
+/* ==========================================================================
+   #FONT SIZE CONTROL
+   ========================================================================== */
+
+.font-size-control {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+}
+
+.font-size-button {
+  background-color: var(--color-bg-primary);
+  padding: var(--space-2) var(--space-3);
+  font-weight: bold;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s ease;
+}
+
+.font-size-button:hover {
+  background-color: var(--color-bg-secondary);
+}
+
+.font-size-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+.font-size-button-left {
+  border-right: 1px solid var(--color-border);
+}
+
+.font-size-button-right {
+  border-left: 1px solid var(--color-border);
+}
+
+.font-size-display {
+  padding: var(--space-2) var(--space-4);
+  font-weight: 600;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+
+/* ==========================================================================
+   #FILTER MODE TOGGLE
+   ========================================================================== */
+
+.filter-mode-toggle {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+}
+
+.filter-button {
+  background-color: var(--color-bg-primary);
+  padding: var(--space-2) var(--space-4);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.filter-button:hover {
+  background-color: var(--color-bg-secondary);
+}
+
+.filter-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+.filter-button.is-active {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.filter-button-right {
+  border-left: 1px solid var(--color-border);
+}
+
+
+
+/* ==========================================================================
+   #HADITH CARD
+   ========================================================================== */
+
+.hadith-card {
+  background-color: var(--color-bg-primary);
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--border-radius-lg);
+  padding: var(--space-6) var(--space-7);
+  margin-bottom: var(--space-6);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.hadith-card:hover {
+  box-shadow: var(--shadow-xl);
+}
+
+.hadith-card__header {
+  text-align: center;
+  margin-bottom: var(--space-6);
+}
+
+.hadith-card__id {
+  font-size: 2.25rem;
+  font-weight: bold;
+  color: var(--color-text-primary);
+  font-family: var(--font-family-serif);
+}
+
+.hadith-card__title {
+  font-size: 1.25rem;
+  color: var(--color-text-secondary);
+  margin-top: var(--space-2);
+}
+
+.hadith-card__arabic-section {
+  text-align: right;
+  margin-bottom: var(--space-6);
+  border-top: 1px solid var(--color-bg-tertiary);
+  border-bottom: 1px solid var(--color-bg-tertiary);
+  padding: var(--space-6) 0;
+}
+
+.hadith-card__arabic-text {
+  font-size: 2.25rem;
+  line-height: 1.75;
+  font-family: var(--font-family-serif);
+  color: var(--color-text-primary);
+  transition: font-size 0.3s ease;
+}
+
+.hadith-card__translation-header {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-4);
+}
+
+.hadith-card__translation-text {
+  font-size: 1rem;
+  line-height: 1.625;
+  color: var(--color-text-secondary);
+  white-space: pre-line;
+  transition: font-size 0.3s ease;
+}
+
+.hadith-card__actions {
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-bg-tertiary);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-4);
+}
+
+@media (max-width: 600px) {
+  .hadith-card {
+    padding: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+
+  .hadith-card__header {
+    margin-bottom: var(--space-4);
+  }
+
+  .hadith-card__id {
+    font-size: 1.75rem;
+  }
+
+  .hadith-card__arabic-section {
+    padding: var(--space-4) 0;
+    margin-bottom: var(--space-4);
+  }
+
+  .hadith-card__arabic-text {
+    font-size: 1.75rem;
+  }
+
+  .hadith-card__translation-header {
+    font-size: 1rem;
+  }
+
+  .hadith-card__translation-text {
+    font-size: 0.875rem;
+  }
+
+  .hadith-card__actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+  }
+
+  .hadith-card__action-button,
+  .hadith-card__favorite-button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .hadith-card__favorite-button {
+    padding: var(--space-2) var(--space-4);
+  }
+}
+
+.hadith-card__action-button {
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.875rem;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--border-radius-md);
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.hadith-card__action-button:hover {
+  background-color: var(--color-bg-secondary);
+}
+
+.hadith-card__favorite-button {
+  padding: var(--space-2);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color 0.2s ease;
+  background: none;
+  border: none;
+}
+
+.hadith-card__favorite-button:hover {
+  color: var(--color-secondary);
+}
+
+.hadith-card__favorite-button.is-favorite {
+  color: var(--color-secondary);
+}
+
+/* ==========================================================================
+   #DZIKIR MODAL
+   ========================================================================== */
+
+.dzikir-modal__overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-modal);
+  padding: var(--space-4);
+}
+
+.dzikir-modal__content {
+  background-color: var(--color-bg-primary);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 600px;
+  height: 90%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dzikir-modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dzikir-modal__title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--color-text-primary);
+}
+
+.dzikir-modal__close-button {
+  font-size: 1.5rem;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.dzikir-modal__tabs {
+  display: flex;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dzikir-modal__tab-button {
+  flex: 1;
+  padding: var(--space-3);
+  text-align: center;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-secondary);
+  border: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dzikir-modal__tab-button.is-active {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.dzikir-modal__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-4);
+}
+
+.dzikir-modal__footer {
+  padding: var(--space-4);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.dzikir-modal__reset-button {
+  background-color: var(--color-danger);
+  color: var(--color-text-inverse);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s ease;
+}
+
+.dzikir-modal__reset-button:hover {
+  background-color: var(--color-danger-hover);
+}
+
+/* ==========================================================================
+   #DZIKIR ITEM CARD
+   ========================================================================== */
+
+.dzikir-item-card {
+  background-color: var(--color-bg-primary);
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--border-radius-md);
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.dzikir-item-card.is-completed {
+  background-color: #dcfce7; /* green-100 */
+  border-color: var(--color-success);
+}
+
+[data-theme='dark'] .dzikir-item-card.is-completed {
+    background-color: #166534; /* dark green */
+}
+
+.dzikir-item-card:hover {
+  background-color: var(--color-bg-secondary);
+}
+
+.dzikir-item-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-2);
+}
+
+.dzikir-item-card__notes {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.dzikir-item-card__count {
+  font-size: 1.125rem;
+  font-weight: bold;
+  color: var(--color-primary);
+}
+
+.dzikir-item-card__count.is-completed {
+  color: var(--color-success);
+}
+
+.dzikir-item-card__arabic {
+  text-align: right;
+  font-size: 1.5rem;
+  font-family: var(--font-family-serif);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+  line-height: 1.6;
+}
+
+.dzikir-item-card__translation {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-2);
+}
